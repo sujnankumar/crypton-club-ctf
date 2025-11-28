@@ -18,7 +18,9 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en" className="dark">
-      <script src="https://cdn.tailwindcss.com"></script>
+      <head>
+        <script src="https://cdn.tailwindcss.com"></script>
+      </head>
       <body className={`${inter.className} bg-slate-950 text-slate-100 min-h-screen`}>
         <Providers>
           <MainLayout>

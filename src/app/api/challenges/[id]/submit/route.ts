@@ -9,11 +9,13 @@ const submitFlagSchema = z.object({
     flag: z.string().min(1),
 });
 
-export async function POST(req: Request, { params }: { params: { id: string } }) {
+export async function POST(req: Request, { params }: { params: Promise<{ id: string }> }) {
     const session = await auth();
     if (!session) {
         return NextResponse.json({ message: 'Unauthorized' }, { status: 401 });
     }
+
+    const { id } = await params;
 
     try {
         const body = await req.json();
@@ -21,7 +23,7 @@ export async function POST(req: Request, { params }: { params: { id: string } })
 
         await dbConnect();
 
-        const challenge = await Challenge.findById(params.id).select('+flag');
+        const challenge = await Challenge.findById(id).select('+flag');
         if (!challenge) {
             return NextResponse.json({ message: 'Challenge not found' }, { status: 404 });
         }
@@ -29,7 +31,7 @@ export async function POST(req: Request, { params }: { params: { id: string } })
         // Check if already solved
         const existingSubmission = await Submission.findOne({
             user_id: session.user.id,
-            challenge_id: params.id,
+            challenge_id: id,
             is_correct: true
         });
 
@@ -41,7 +43,7 @@ export async function POST(req: Request, { params }: { params: { id: string } })
 
         await Submission.create({
             user_id: session.user.id,
-            challenge_id: params.id,
+            challenge_id: id,
             submitted_flag: flag,
             is_correct: isCorrect,
             points_awarded: isCorrect ? challenge.points : 0,

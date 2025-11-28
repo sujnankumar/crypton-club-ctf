@@ -6,6 +6,7 @@ import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/Card';
 import { Flag, Trophy, Megaphone, ArrowRight } from 'lucide-react';
 import { Button } from '@/components/ui/Button';
 import { format } from 'date-fns';
+import { useSession } from 'next-auth/react';
 
 interface Announcement {
   _id: string;
@@ -21,11 +22,14 @@ interface UserStats {
 }
 
 export default function DashboardPage() {
+  const { data: session, status: sessionStatus } = useSession();
   const [announcements, setAnnouncements] = useState<Announcement[]>([]);
   const [stats, setStats] = useState<UserStats>({ rank: 0, score: 0, solves: 0 });
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
+    if (sessionStatus === 'loading') return;
+
     const fetchData = async () => {
       try {
         const [announcementsRes, scoreboardRes, challengesRes] = await Promise.all([
@@ -35,23 +39,24 @@ export default function DashboardPage() {
         ]);
 
         const announcementsData = await announcementsRes.json();
-        setAnnouncements(announcementsData.slice(0, 3)); // Show top 3
+        setAnnouncements(announcementsData.slice(0, 3));
 
-        // Calculate stats from scoreboard (this is a bit inefficient client-side but works for MVP)
-        // Ideally we'd have a /api/users/me/stats endpoint
         const scoreboardData = await scoreboardRes.json();
-        // We need to know current user, but we can get that from session or just find ourselves in scoreboard if we knew our username
-        // For now, let's just show placeholders or try to match if we had user context.
-        // Actually, let's fetch /api/auth/session to get user info if needed, or just use useSession hook.
-        
-        // Simplified: just show 0s or fetch real data if we add the endpoint.
-        // Let's rely on the challenges list to calculate solves count at least.
+        // Calculate user rank from scoreboard
+        let userRank = 0;
+        if (session?.user?.username) {
+          const myEntry = scoreboardData.find((u: any) => u.username === session.user.username);
+          if (myEntry) {
+            userRank = scoreboardData.indexOf(myEntry) + 1;
+          }
+        }
+
         const challengesData = await challengesRes.json();
         const solvedCount = challengesData.filter((c: any) => c.solved).length;
         const score = challengesData.filter((c: any) => c.solved).reduce((acc: number, c: any) => acc + c.points, 0);
-        
+
         setStats({
-          rank: 0, // Hard to calc without full scoreboard context and user ID
+          rank: userRank,
           score,
           solves: solvedCount
         });
@@ -64,7 +69,7 @@ export default function DashboardPage() {
     };
 
     fetchData();
-  }, []);
+  }, [session, sessionStatus]);
 
   return (
     <div className="min-h-screen bg-slate-900 text-green-400 font-mono relative">

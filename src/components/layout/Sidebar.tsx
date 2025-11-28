@@ -58,7 +58,7 @@ export function Sidebar({ isOpen, onClose }: SidebarProps) {
         )}
       >
         <div className="flex h-16 items-center border-b border-slate-800 px-6 md:hidden">
-          <span className="text-lg font-bold text-blue-500">Menu</span>
+          <span className="text-lg font-bold text-green-500">$ Menu</span>
         </div>
         
         <div className="flex flex-col gap-1 p-4">
@@ -93,7 +93,7 @@ export function Sidebar({ isOpen, onClose }: SidebarProps) {
                 className={cn(
                   'flex items-center gap-3 rounded-md px-3 py-2 text-sm font-medium transition-colors',
                   isActive
-                    ? 'bg-blue-600 text-white'
+                    ? 'bg-green-600 text-white'
                     : 'text-slate-300 hover:bg-slate-800 hover:text-white'
                 )}
               >

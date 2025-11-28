@@ -11,7 +11,7 @@ module.exports = {
         background: "var(--background)",
         foreground: "var(--foreground)",
         primary: {
-          DEFAULT: "#3b82f6",
+          DEFAULT: "#22c55e",
           foreground: "#ffffff",
         },
         secondary: {

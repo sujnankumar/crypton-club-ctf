@@ -17,10 +17,12 @@ export function Navbar({ onMenuClick }: { onMenuClick: () => void }) {
         <button
           className="mr-4 md:hidden text-slate-400 hover:text-slate-100"
           onClick={onMenuClick}
+          aria-label="Open menu"
+          title="Open menu"
         >
           <Menu className="h-6 w-6" />
         </button>
-        <Link href="/" className="flex items-center gap-2 font-bold text-xl text-blue-500">
+        <Link href="/" className="flex items-center gap-2 font-bold text-xl text-green-500">
           <Terminal className="h-6 w-6" />
           <span>CTF Platform</span>
         </Link>
@@ -31,7 +33,7 @@ export function Navbar({ onMenuClick }: { onMenuClick: () => void }) {
                 onClick={() => setIsProfileOpen(!isProfileOpen)}
                 className="flex items-center gap-2 text-sm font-medium text-slate-300 hover:text-slate-100 transition-colors"
               >
-                <div className="h-8 w-8 rounded-full bg-blue-600 flex items-center justify-center text-white">
+                <div className="h-8 w-8 rounded-full bg-green-600 flex items-center justify-center text-white">
                   {session.user?.username?.[0]?.toUpperCase() || 'U'}
                 </div>
                 <span className="hidden md:inline-block">{session.user?.username}</span>
