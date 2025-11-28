@@ -1,8 +1,18 @@
+'use client';
+
 import Link from 'next/link';
+import { useSession } from 'next-auth/react';
 import { Button } from '@/components/ui/Button';
 import { Terminal, Flag, Shield } from 'lucide-react';
 
 export default function Home() {
+  const { data: session, status } = useSession();
+  const isLoggedIn = status === 'authenticated' && session;
+
+  const welcomeMessage = isLoggedIn
+    ? `Welcome back, ${session.user?.name || 'hacker'}!`
+    : 'Test your hacking skills, solve challenges, and climb the leaderboard. A secure and modern platform for cybersecurity enthusiasts.';
+
   return (
     <div className="flex min-h-screen flex-col items-center justify-center bg-slate-950 text-slate-100">
       <div className="container mx-auto px-4 py-16 text-center">
@@ -11,27 +21,43 @@ export default function Home() {
             <Terminal className="h-16 w-16 text-green-500" />
           </div>
         </div>
-        
+
         <h1 className="mb-6 text-5xl font-extrabold tracking-tight text-white sm:text-6xl">
           Capture The <span className="text-green-500">Flag</span>
         </h1>
-        
+
         <p className="mx-auto mb-10 max-w-2xl text-lg text-slate-400">
-          Test your hacking skills, solve challenges, and climb the leaderboard.
-          A secure and modern platform for cybersecurity enthusiasts.
+          {welcomeMessage}
         </p>
-        
+
         <div className="flex flex-col items-center justify-center gap-4 sm:flex-row">
-          <Link href="/login">
-            <Button size="lg" className="min-w-[160px] text-lg">
-              Login
-            </Button>
-          </Link>
-          <Link href="/register">
-            <Button variant="secondary" size="lg" className="min-w-[160px] text-lg">
-              Register
-            </Button>
-          </Link>
+          {isLoggedIn ? (
+            <>
+              <Link href="/dashboard">
+                <Button size="lg" className="min-w-[160px] text-lg">
+                  Go to Dashboard
+                </Button>
+              </Link>
+              <Link href="/challenges">
+                <Button variant="secondary" size="lg" className="min-w-[160px] text-lg">
+                  See Challenges
+                </Button>
+              </Link>
+            </>
+          ) : (
+            <>
+              <Link href="/login">
+                <Button size="lg" className="min-w-[160px] text-lg">
+                  Get Started
+                </Button>
+              </Link>
+              <Link href="/register">
+                <Button variant="secondary" size="lg" className="min-w-[160px] text-lg">
+                  Register
+                </Button>
+              </Link>
+            </>
+          )}
         </div>
 
         <div className="mt-20 grid gap-8 sm:grid-cols-3">
