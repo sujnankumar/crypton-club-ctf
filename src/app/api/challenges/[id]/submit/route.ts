@@ -20,6 +20,7 @@ export async function POST(req: Request, { params }: { params: Promise<{ id: str
     try {
         const body = await req.json();
         const { flag } = submitFlagSchema.parse(body);
+        const trimmedFlag = flag.trim(); // Remove leading/trailing spaces
 
         await dbConnect();
 
@@ -39,7 +40,7 @@ export async function POST(req: Request, { params }: { params: Promise<{ id: str
             return NextResponse.json({ message: 'Already solved' }, { status: 400 });
         }
 
-        const isCorrect = challenge.flag === flag;
+        const isCorrect = challenge.flag === trimmedFlag;
 
         await Submission.create({
             user_id: session.user.id,
