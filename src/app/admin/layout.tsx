@@ -1,7 +1,7 @@
 import { Metadata } from 'next';
 
 export const metadata: Metadata = {
-  title: 'Admin Dashboard - CTF Platform',
+  title: 'Admin Dashboard - CryptonCTF',
 };
 
 export default function AdminLayout({

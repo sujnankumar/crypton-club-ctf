@@ -7,8 +7,8 @@ import MainLayout from '@/components/layout/MainLayout';
 const inter = Inter({ subsets: ['latin'] });
 
 export const metadata: Metadata = {
-  title: 'CTF Platform',
-  description: 'A secure and modern CTF platform',
+  title: 'CryptonCTF',
+  description: 'Capture the Flag Platform for Cybersecurity Challenges',
 };
 
 export default function RootLayout({

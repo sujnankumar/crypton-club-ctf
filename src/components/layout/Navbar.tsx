@@ -24,7 +24,7 @@ export function Navbar({ onMenuClick }: { onMenuClick: () => void }) {
         </button>
         <Link href="/" className="flex items-center gap-2 font-bold text-xl text-green-500">
           <Terminal className="h-6 w-6" />
-          <span>CTF Platform</span>
+          <span>CryptonCTF</span>
         </Link>
         <div className="ml-auto flex items-center gap-4">
           {session ? (

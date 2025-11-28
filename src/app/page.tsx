@@ -7,13 +7,13 @@ export default function Home() {
     <div className="flex min-h-screen flex-col items-center justify-center bg-slate-950 text-slate-100">
       <div className="container mx-auto px-4 py-16 text-center">
         <div className="mb-8 flex justify-center">
-          <div className="rounded-full bg-blue-500/10 p-6 ring-1 ring-blue-500/20">
-            <Terminal className="h-16 w-16 text-blue-500" />
+          <div className="rounded-full bg-green-500/10 p-6 ring-1 ring-green-500/20">
+            <Terminal className="h-16 w-16 text-green-500" />
           </div>
         </div>
         
         <h1 className="mb-6 text-5xl font-extrabold tracking-tight text-white sm:text-6xl">
-          Capture The <span className="text-blue-500">Flag</span>
+          Capture The <span className="text-green-500">Flag</span>
         </h1>
         
         <p className="mx-auto mb-10 max-w-2xl text-lg text-slate-400">
